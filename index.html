@@ -1,119 +1,109 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSG GameDev Club | Enter the Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FSG GameDev Club — Portal Run</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap');
-:root{--bg:#100d20;--panel:#1b1631;--purple:#a78bfa;--blue:#67e8f9;--pink:#f9a8d4;--white:#f7f3ff;--muted:#b7aecf}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#28204b 0%,var(--bg) 60%);color:var(--white);font-family:'Space Grotesk',sans-serif;min-height:100vh}
-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 7%;border-bottom:1px solid #ffffff18}
-.brand{font-family:'Space Mono',monospace;font-weight:bold;color:var(--blue)}
-.tag{font-size:12px;color:var(--pink);border:1px solid #f9a8d455;padding:7px 10px;border-radius:20px}
-main{max-width:1000px;margin:auto;padding:65px 22px}
-.hero{text-align:center}
-.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--blue)}
-h1{font-size:clamp(38px,7vw,76px);line-height:1.02;margin:20px 0}
-h1 span{color:var(--purple)}
-p{color:var(--muted);line-height:1.7}
-.hero p{max-width:590px;margin:0 auto 28px}
-button,.btn{font:700 14px 'Space Mono',monospace;text-decoration:none;display:inline-block;padding:15px 20px;border-radius:9px;border:0;cursor:pointer;transition:.2s}
-.primary{background:var(--blue);color:#151329}
-.primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px #67e8f944}
-.secondary{background:#ffffff0b;border:1px solid #ffffff30;color:var(--white)}
-section{margin-top:65px}
-.card{background:#1b1631cc;border:1px solid #ffffff18;border-radius:18px;padding:26px}
-h2{font-size:27px;margin-top:8px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.puzzle{display:flex;justify-content:center;gap:12px;margin:24px 0}
-.tile{width:65px;height:65px;border-radius:12px;background:#30264f;border:2px solid #514477;color:var(--white);font-size:25px}
-.tile.chosen{background:var(--purple);color:#171127;border-color:var(--pink)}
-.feedback{min-height:25px;color:var(--blue);font-size:14px}
-.price{font-size:36px;font-weight:bold;color:var(--pink)}
-footer{text-align:center;padding:35px;color:var(--muted);font-size:12px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}main{padding-top:42px}.card{padding:20px}.puzzle{gap:7px}.tile{width:56px;height:56px}}
+:root{--bg:#100d20;--panel:#1b1631;--purple:#b49aff;--blue:#67e8f9;--pink:#ffa8d8;--text:#f8f5ff;--muted:#c0b7d9}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top,#2b2051 0%,var(--bg) 65%);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px clamp(16px,6vw,70px);border-bottom:1px solid #ffffff1c}
+.brand{font:700 13px 'Space Mono',monospace;color:var(--blue);letter-spacing:1px}.status{font:11px 'Space Mono',monospace;color:var(--pink);border:1px solid #ffa8d855;border-radius:30px;padding:8px 11px}
+main{max-width:1000px;margin:auto;padding:42px 18px 70px}.hero{text-align:center;margin:0 auto 28px}.eyebrow{font:12px 'Space Mono',monospace;color:var(--blue);letter-spacing:2px}.hero h1{font-size:clamp(36px,7vw,70px);line-height:1.02;margin:15px 0}.hero h1 span{color:var(--purple)}p{color:var(--muted);line-height:1.65}.hero p{max-width:650px;margin:0 auto 20px}
+.card{background:#1b1631d9;border:1px solid #ffffff20;border-radius:18px;padding:22px;box-shadow:0 18px 55px #0002}.game-card{padding:14px}.hud{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:6px 5px 13px;font:12px 'Space Mono',monospace}.gemcount{color:var(--pink)}.game-wrap{position:relative;border:1px solid #8c7cbd55;border-radius:12px;overflow:hidden;background:#17152e}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none}.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:#100d20d9}.overlay.hidden{display:none}.overlay-box{max-width:380px}.overlay h2{font-size:clamp(24px,5vw,38px);margin:8px 0}.overlay p{margin:8px auto 18px}.btn,button{font:700 12px 'Space Mono',monospace;border-radius:9px;border:0;padding:13px 16px;cursor:pointer;transition:transform .15s,filter .15s}.btn:hover,button:hover{transform:translateY(-2px);filter:brightness(1.08)}.primary{display:inline-block;background:var(--blue);color:#17132b;text-decoration:none}.secondary{background:#ffffff10;color:var(--text);border:1px solid #ffffff30}.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 3px 2px;flex-wrap:wrap}.controls p{font-size:12px;margin:0}.touch{display:flex;gap:8px}.touch button{min-width:54px;min-height:46px;background:#342753;border:1px solid #8c7cbd;color:white;font-size:18px;touch-action:none;user-select:none}.below{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}.below h2{font-size:21px;margin:8px 0}.below p{font-size:14px;margin-bottom:0}.join{display:none;margin-top:22px;text-align:center;border-color:#67e8f988;box-shadow:0 0 45px #67e8f911}.join.show{display:block;animation:appear .45s ease-out}.fee{font-size:35px;font-weight:700;color:var(--pink);margin:8px}.join h2{font-size:28px;margin:10px 0}.small{font-size:12px}@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}footer{text-align:center;color:#968caf;font:10px 'Space Mono',monospace;padding:25px 10px}
+@media(max-width:650px){main{padding-top:30px}.below{grid-template-columns:1fr}.card{padding:16px}.game-card{padding:9px}.controls{align-items:flex-start}.controls p{max-width:150px}.status{font-size:9px}.brand{font-size:11px}}
 </style>
 </head>
 <body>
-<nav>
-  <div class="brand">▧ FSG GAMEDEV</div>
-  <div class="tag">PLAYER 001 · RECRUITMENT OPEN</div>
-</nav>
+<nav><div class="brand">▧ FSG GAMEDEV CLUB</div><div class="status">RECRUITMENT OPEN · 2026</div></nav>
 <main>
-  <header class="hero">
-    <div class="eyebrow">FACULTY OF SCIENCES OF GABÈS</div>
-    <h1>DON'T JUST PLAY.<br><span>CREATE THE GAME.</span></h1>
-    <p>Got ideas for a game? Curious about how your favourite games work? Come build, experiment, learn and make something fun with us. No experience required — just bring your curiosity.</p>
-    <a class="btn primary" href="#quest">START YOUR QUEST ↘</a>
-  </header>
-
-  <section class="grid">
-    <div class="card">
-      <div class="eyebrow">01 / THE CLUB</div>
-      <h2>Small team. Big ideas.</h2>
-      <p>We explore game development, game design, Unity, Unreal Engine and indie game projects. Learn together, share ideas and turn them into playable experiences.</p>
-    </div>
-    <div class="card">
-      <div class="eyebrow">02 / YOUR ADVENTURE</div>
-      <h2>Make your first move.</h2>
-      <p>Meet other students, join activities, experiment with game mechanics and work on projects at your own pace. Beginners are welcome.</p>
-    </div>
-  </section>
-
-  <section id="quest" class="card" style="text-align:center">
-    <div class="eyebrow">BONUS LEVEL / 01</div>
-    <h2>Unlock the join button</h2>
-    <p>Tap the tiles in this order: moon, star, heart.</p>
-    <div class="puzzle">
-      <button class="tile" data-answer="moon" aria-label="Moon">☾</button>
-      <button class="tile" data-answer="heart" aria-label="Heart">♡</button>
-      <button class="tile" data-answer="star" aria-label="Star">✦</button>
-    </div>
-    <div class="feedback" id="feedback" aria-live="polite">Waiting for player input...</div>
-    <button class="secondary" id="reset">RESET LEVEL ↻</button>
-  </section>
-
-  <section id="join" class="card" style="text-align:center">
-    <div class="eyebrow">FINAL LEVEL / JOIN US</div>
-    <h2>Your next chapter starts here.</h2>
-    <p>Ready to join the FSG GameDev Club? Complete the membership form using the button below.</p>
-    <div class="price">15 TND</div>
-    <p>Membership fee · Paid in person to the club team<br>No online payment needed.</p>
-    <a class="btn primary" href="https://forms.gle/YaJ7FyvtLMJP83LK9" target="_blank" rel="noopener noreferrer">OPEN MEMBERSHIP FORM ↗</a>
-    <p style="font-size:12px">The form opens in a new tab. See you on the other side! 💜</p>
-  </section>
+<header class="hero"><div class="eyebrow">FACULTY OF SCIENCES OF GABÈS</div><h1>PORTAL <span>RUN.</span></h1><p>A tiny platformer made for future game makers. Jump, collect all 5 energy shards, and unlock the club portal. Ready, player?</p></header>
+<section class="card game-card" aria-label="Portal Run platform game">
+<div class="hud"><span>MISSION: COLLECT THE SHARDS</span><span class="gemcount" id="counter">SHARDS 0 / 5</span><span id="lives">FALLS 0</span></div>
+<div class="game-wrap">
+<canvas id="game" width="800" height="440" aria-label="Pixel platform game. Use arrow keys or A and D to move, Space or Up to jump."></canvas>
+<div class="overlay" id="startOverlay"><div class="overlay-box"><div class="eyebrow">PLAYER 001 · LEVEL 01</div><h2>Find the portal.</h2><p>Move with ← → or A / D. Jump with Space, ↑ or W. Collect every shard, then reach the glowing portal!</p><button class="primary" id="startBtn">START GAME ▶</button></div></div>
+<div class="overlay hidden" id="winOverlay"><div class="overlay-box"><div class="eyebrow">MISSION COMPLETE</div><h2>PORTAL UNLOCKED ✦</h2><p>You made it! You have the skills to join the next adventure.</p><button class="primary" id="continueBtn">UNLOCK MEMBERSHIP ↗</button></div></div>
+<div class="overlay hidden" id="loseOverlay"><div class="overlay-box"><div class="eyebrow">TRY AGAIN</div><h2>Oops, player!</h2><p>You fell off the map. Your shards are safe — try the level again.</p><button class="primary" id="retryBtn">RESPAWN ↻</button></div></div>
+</div>
+<div class="controls"><p>PC: ← → / A D to move · SPACE / ↑ to jump</p><div class="touch"><button id="leftBtn" aria-label="Move left">←</button><button id="jumpBtn" aria-label="Jump">↑</button><button id="rightBtn" aria-label="Move right">→</button></div><button class="secondary" id="restartBtn">RESTART ↻</button></div>
+</section>
+<div class="below">
+<section class="card"><div class="eyebrow">ABOUT THE CLUB</div><h2>Small team. Big ideas.</h2><p>Explore game development, game design, Unity, Unreal Engine and indie projects with other students. Beginners are welcome — curiosity is enough to start.</p></section>
+<section class="card"><div class="eyebrow">YOUR QUEST</div><h2>Make something playable.</h2><p>Learn together, experiment with mechanics, meet other creators and turn your ideas into games. Your first project could start here.</p></section>
+</div>
+<section class="card join" id="joinSection">
+<div class="eyebrow">NEW QUEST AVAILABLE</div><h2>Welcome to the party! 💜</h2><p>You completed Portal Run. Now apply to join the FSG GameDev Club.</p><div class="fee">15 TND</div><p>Membership fee · Paid in person to the club team.<br>No online payment is required.</p><a class="btn primary" href="https://forms.gle/YaJ7FyvtLMJP83LK9" target="_blank" rel="noopener noreferrer">OPEN MEMBERSHIP FORM ↗</a><p class="small">Your Google Form opens in a new tab. See you in the club!</p>
+</section>
 </main>
 <footer>MADE BY STUDENTS, FOR FUTURE GAME MAKERS · FSG GAMEDEV CLUB © 2026</footer>
 <script>
-const sequence=['moon','star','heart'];
-let progress=0;
-const feedback=document.getElementById('feedback');
-const tiles=[...document.querySelectorAll('.tile')];
-tiles.forEach(tile=>tile.addEventListener('click',()=>{
-  if(tile.dataset.answer===sequence[progress]){
-    tile.classList.add('chosen');
-    progress++;
-    if(progress===sequence.length){
-      feedback.textContent='LEVEL COMPLETE! Your membership form is ready below. ✨';
-      document.getElementById('join').scrollIntoView({behavior:'smooth'});
-    }else{
-      feedback.textContent=`Nice! ${progress}/${sequence.length} correct. Keep going!`;
-    }
-  }else{
-    progress=0;
-    tiles.forEach(t=>t.classList.remove('chosen'));
-    feedback.textContent='Not quite! Try again: moon → star → heart.';
-  }
-}));
-document.getElementById('reset').addEventListener('click',()=>{
-  progress=0;
-  tiles.forEach(t=>t.classList.remove('chosen'));
-  feedback.textContent='Level reset! Try moon → star → heart.';
-});
+(() => {
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const W=800,H=440,gravity=.48;
+const platforms=[
+{x:0,y:405,w:170,h:35},{x:135,y:345,w:105,h:18},{x:245,y:290,w:105,h:18},
+{x:360,y:235,w:105,h:18},{x:475,y:290,w:100,h:18},{x:585,y:230,w:105,h:18},
+{x:680,y:165,w:120,h:18}
+];
+const shardSpots=[{x:175,y:315},{x:285,y:260},{x:400,y:205},{x:515,y:260},{x:720,y:135}];
+const portal={x:733,y:112,w:34,h:50};
+let player,shards,keys={},running=false,won=false,falls=0,frame=0;
+const $=id=>document.getElementById(id);
+function reset(){player={x:40,y:355,w:22,h:30,vx:0,vy:0,onGround:false};shards=shardSpots.map(s=>({...s,got:false}));won=false;running=false;$('counter').textContent='SHARDS 0 / 5';$('lives').textContent='FALLS '+falls;$('winOverlay').classList.add('hidden');$('loseOverlay').classList.add('hidden');$('startOverlay').classList.remove('hidden');$('joinSection').classList.remove('show');draw();}
+function start(){running=true;$('startOverlay').classList.add('hidden');$('loseOverlay').classList.add('hidden');lastTime=performance.now();requestAnimationFrame(loop);}
+function rects(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function update(){
+ if(!running||won)return;
+ frame++;
+ const left=keys.ArrowLeft||keys.a||keys.A,right=keys.ArrowRight||keys.d||keys.D;
+ player.vx=(right?3.25:0)-(left?3.25:0);player.x+=player.vx;
+ player.x=Math.max(0,Math.min(W-player.w,player.x));
+ player.vy=Math.min(player.vy+gravity,10);const oldY=player.y;player.y+=player.vy;player.onGround=false;
+ if(player.vy>=0){for(const p of platforms){if(oldY+player.h<=p.y&&player.y+player.h>=p.y&&player.x+player.w>p.x&&player.x<p.x+p.w){player.y=p.y-player.h;player.vy=0;player.onGround=true;}}}
+ if((keys[' ']||keys.ArrowUp||keys.w||keys.W)&&player.onGround){player.vy=-10.5;player.onGround=false;keys[' ']=false;keys.ArrowUp=false;keys.w=false;keys.W=false;}
+ for(const s of shards){if(!s.got&&rects(player,{x:s.x-9,y:s.y-9,w:18,h:18})){s.got=true;const count=shards.filter(a=>a.got).length;$('counter').textContent='SHARDS '+count+' / 5';}}
+ if(player.y>H+40){falls++;$('lives').textContent='FALLS '+falls;running=false;$('loseOverlay').classList.remove('hidden');}
+ if(rects(player,portal)&&shards.every(s=>s.got)){won=true;running=false;$('winOverlay').classList.remove('hidden');}
+}
+function draw(){
+ ctx.clearRect(0,0,W,H);
+ const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#17152f');sky.addColorStop(1,'#29204b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+ // stars
+ for(let i=0;i<55;i++){let x=(i*137+31)%W,y=(i*71+13)%H;ctx.fillStyle=i%3===0?'#ffa8d8':'#b49aff';ctx.globalAlpha=.35+((i%4)*.15);ctx.fillRect(x,y,i%5===0?3:2,i%5===0?3:2)}ctx.globalAlpha=1;
+ // distant skyline
+ for(let i=0;i<16;i++){let x=i*55;ctx.fillStyle='#211a3d';ctx.fillRect(x,330-(i%4)*17,38,110);ctx.fillStyle='#514477';for(let y=342-(i%4)*17;y<410;y+=16)ctx.fillRect(x+8,y,4,5);}
+ // portal
+ ctx.fillStyle='#38245e';ctx.fillRect(portal.x-5,portal.y+5,portal.w+10,portal.h+8);
+ ctx.fillStyle='#a78bfa';ctx.fillRect(portal.x,portal.y,portal.w,portal.h);
+ ctx.fillStyle='#67e8f9';ctx.fillRect(portal.x+7,portal.y+7,portal.w-14,portal.h-14);
+ ctx.fillStyle='#17132b';ctx.fillRect(portal.x+12,portal.y+12,portal.w-24,portal.h-20);
+ ctx.fillStyle='#ffa8d8';ctx.fillRect(portal.x+14,portal.y+18,5,5);
+ // platforms
+ for(const p of platforms){ctx.fillStyle='#514477';ctx.fillRect(p.x,p.y,p.w,p.h);ctx.fillStyle='#b49aff';ctx.fillRect(p.x,p.y,p.w,4);ctx.fillStyle='#33264f';for(let x=p.x+8;x<p.x+p.w-4;x+=18)ctx.fillRect(x,p.y+9,7,3);}
+ // shards
+ for(const s of shards){if(s.got)continue;let bob=Math.sin(frame*.08+s.x)*3;ctx.save();ctx.translate(s.x,s.y+bob);ctx.rotate(Math.PI/4);ctx.shadowColor='#67e8f9';ctx.shadowBlur=14;ctx.fillStyle='#67e8f9';ctx.fillRect(-6,-6,12,12);ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.fillRect(-2,-4,3,3);ctx.restore();}
+ // player pixel sprite
+ const x=Math.round(player.x),y=Math.round(player.y);
+ ctx.fillStyle='#0a0915';ctx.fillRect(x+3,y+27,7,4);ctx.fillRect(x+14,y+27,7,4);
+ ctx.fillStyle='#ffa8d8';ctx.fillRect(x+4,y+5,15,12);ctx.fillStyle='#b49aff';ctx.fillRect(x+2,y+15,19,13);
+ ctx.fillStyle='#f8f5ff';ctx.fillRect(x+6,y+8,4,4);ctx.fillRect(x+14,y+8,4,4);ctx.fillStyle='#17132b';ctx.fillRect(x+8,y+9,2,3);ctx.fillRect(x+15,y+9,2,3);
+ ctx.fillStyle='#67e8f9';ctx.fillRect(x,y+17,4,8);ctx.fillRect(x+20,y+17,4,8);
+ // HUD hint and ground
+ ctx.fillStyle='#c0b7d9';ctx.font='10px monospace';ctx.fillText(shards.every(s=>s.got)?'PORTAL READY! GO!':'COLLECT ALL SHARDS TO OPEN PORTAL',15,22);
+}
+let lastTime=0;
+function loop(t){if(!running)return;const dt=Math.min((t-lastTime)/16.67,2);lastTime=t; // time-stable enough for simple platform controls
+ update();draw();if(running)requestAnimationFrame(loop);}
+document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp',' '].includes(e.key))e.preventDefault();keys[e.key]=true;if(!running&&!won&&e.key==='Enter')start();});
+document.addEventListener('keyup',e=>{keys[e.key]=false});
+function bindHold(id,key){const b=$(id);const down=e=>{e.preventDefault();keys[key]=true};const up=e=>{e.preventDefault();keys[key]=false};b.addEventListener('pointerdown',down);['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,up));}
+bindHold('leftBtn','ArrowLeft');bindHold('rightBtn','ArrowRight');$('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();if(player.onGround){player.vy=-10.5;player.onGround=false;}});
+$('startBtn').addEventListener('click',start);$('retryBtn').addEventListener('click',start);$('restartBtn').addEventListener('click',()=>{falls=0;reset()});
+$('continueBtn').addEventListener('click',()=>{$('joinSection').classList.add('show');$('joinSection').scrollIntoView({behavior:'smooth',block:'center'});});
+reset();
+})();
 </script>
 </body>
 </html>
