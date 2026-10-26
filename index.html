@@ -1,1 +1,119 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSG GameDev Club | Enter the Game</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap');
+:root{--bg:#100d20;--panel:#1b1631;--purple:#a78bfa;--blue:#67e8f9;--pink:#f9a8d4;--white:#f7f3ff;--muted:#b7aecf}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#28204b 0%,var(--bg) 60%);color:var(--white);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 7%;border-bottom:1px solid #ffffff18}
+.brand{font-family:'Space Mono',monospace;font-weight:bold;color:var(--blue)}
+.tag{font-size:12px;color:var(--pink);border:1px solid #f9a8d455;padding:7px 10px;border-radius:20px}
+main{max-width:1000px;margin:auto;padding:65px 22px}
+.hero{text-align:center}
+.eyebrow{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:3px;color:var(--blue)}
+h1{font-size:clamp(38px,7vw,76px);line-height:1.02;margin:20px 0}
+h1 span{color:var(--purple)}
+p{color:var(--muted);line-height:1.7}
+.hero p{max-width:590px;margin:0 auto 28px}
+button,.btn{font:700 14px 'Space Mono',monospace;text-decoration:none;display:inline-block;padding:15px 20px;border-radius:9px;border:0;cursor:pointer;transition:.2s}
+.primary{background:var(--blue);color:#151329}
+.primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px #67e8f944}
+.secondary{background:#ffffff0b;border:1px solid #ffffff30;color:var(--white)}
+section{margin-top:65px}
+.card{background:#1b1631cc;border:1px solid #ffffff18;border-radius:18px;padding:26px}
+h2{font-size:27px;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.puzzle{display:flex;justify-content:center;gap:12px;margin:24px 0}
+.tile{width:65px;height:65px;border-radius:12px;background:#30264f;border:2px solid #514477;color:var(--white);font-size:25px}
+.tile.chosen{background:var(--purple);color:#171127;border-color:var(--pink)}
+.feedback{min-height:25px;color:var(--blue);font-size:14px}
+.price{font-size:36px;font-weight:bold;color:var(--pink)}
+footer{text-align:center;padding:35px;color:var(--muted);font-size:12px}
+@media(max-width:650px){.grid{grid-template-columns:1fr}main{padding-top:42px}.card{padding:20px}.puzzle{gap:7px}.tile{width:56px;height:56px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">▧ FSG GAMEDEV</div>
+  <div class="tag">PLAYER 001 · RECRUITMENT OPEN</div>
+</nav>
+<main>
+  <header class="hero">
+    <div class="eyebrow">FACULTY OF SCIENCES OF GABÈS</div>
+    <h1>DON'T JUST PLAY.<br><span>CREATE THE GAME.</span></h1>
+    <p>Got ideas for a game? Curious about how your favourite games work? Come build, experiment, learn and make something fun with us. No experience required — just bring your curiosity.</p>
+    <a class="btn primary" href="#quest">START YOUR QUEST ↘</a>
+  </header>
+
+  <section class="grid">
+    <div class="card">
+      <div class="eyebrow">01 / THE CLUB</div>
+      <h2>Small team. Big ideas.</h2>
+      <p>We explore game development, game design, Unity, Unreal Engine and indie game projects. Learn together, share ideas and turn them into playable experiences.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">02 / YOUR ADVENTURE</div>
+      <h2>Make your first move.</h2>
+      <p>Meet other students, join activities, experiment with game mechanics and work on projects at your own pace. Beginners are welcome.</p>
+    </div>
+  </section>
+
+  <section id="quest" class="card" style="text-align:center">
+    <div class="eyebrow">BONUS LEVEL / 01</div>
+    <h2>Unlock the join button</h2>
+    <p>Tap the tiles in this order: moon, star, heart.</p>
+    <div class="puzzle">
+      <button class="tile" data-answer="moon" aria-label="Moon">☾</button>
+      <button class="tile" data-answer="heart" aria-label="Heart">♡</button>
+      <button class="tile" data-answer="star" aria-label="Star">✦</button>
+    </div>
+    <div class="feedback" id="feedback" aria-live="polite">Waiting for player input...</div>
+    <button class="secondary" id="reset">RESET LEVEL ↻</button>
+  </section>
+
+  <section id="join" class="card" style="text-align:center">
+    <div class="eyebrow">FINAL LEVEL / JOIN US</div>
+    <h2>Your next chapter starts here.</h2>
+    <p>Ready to join the FSG GameDev Club? Complete the membership form using the button below.</p>
+    <div class="price">15 TND</div>
+    <p>Membership fee · Paid in person to the club team<br>No online payment needed.</p>
+    <a class="btn primary" href="https://forms.gle/YaJ7FyvtLMJP83LK9" target="_blank" rel="noopener noreferrer">OPEN MEMBERSHIP FORM ↗</a>
+    <p style="font-size:12px">The form opens in a new tab. See you on the other side! 💜</p>
+  </section>
+</main>
+<footer>MADE BY STUDENTS, FOR FUTURE GAME MAKERS · FSG GAMEDEV CLUB © 2026</footer>
+<script>
+const sequence=['moon','star','heart'];
+let progress=0;
+const feedback=document.getElementById('feedback');
+const tiles=[...document.querySelectorAll('.tile')];
+tiles.forEach(tile=>tile.addEventListener('click',()=>{
+  if(tile.dataset.answer===sequence[progress]){
+    tile.classList.add('chosen');
+    progress++;
+    if(progress===sequence.length){
+      feedback.textContent='LEVEL COMPLETE! Your membership form is ready below. ✨';
+      document.getElementById('join').scrollIntoView({behavior:'smooth'});
+    }else{
+      feedback.textContent=`Nice! ${progress}/${sequence.length} correct. Keep going!`;
+    }
+  }else{
+    progress=0;
+    tiles.forEach(t=>t.classList.remove('chosen'));
+    feedback.textContent='Not quite! Try again: moon → star → heart.';
+  }
+}));
+document.getElementById('reset').addEventListener('click',()=>{
+  progress=0;
+  tiles.forEach(t=>t.classList.remove('chosen'));
+  feedback.textContent='Level reset! Try moon → star → heart.';
+});
+</script>
+</body>
+</html>
