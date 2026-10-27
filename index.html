@@ -111,7 +111,18 @@ document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp','
 document.addEventListener('keyup',e=>{keys[e.key]=false});
 function bindHold(id,key){const b=$(id);const down=e=>{e.preventDefault();keys[key]=true};const up=e=>{e.preventDefault();keys[key]=false};b.addEventListener('pointerdown',down);['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,up));}
 bindHold('leftBtn','ArrowLeft');bindHold('rightBtn','ArrowRight');$('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();if(player.onGround){player.vy=-10.5;player.onGround=false;}});
-$('startBtn').addEventListener('click',start);$('retryBtn').addEventListener('click',start);$('restartBtn').addEventListener('click',()=>{
+$('startBtn').addEventListener('click',start);$('retryBtn').addEventListener('click',()=>{
+  keys={};
+  player={x:40,y:355,w:22,h:30,vx:0,vy:0,onGround:false};
+  running=false;
+  won=false;
+  shards=shardSpots.map(s=>({...s,got:false}));
+  $('counter').textContent='SHARDS 0 / 5';
+  $('winOverlay').classList.add('hidden');
+  $('loseOverlay').classList.add('hidden');
+  start();
+});
+  $('restartBtn').addEventListener('click',()=>{
   keys={};
   falls=0;
   reset();
