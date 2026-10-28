@@ -1,135 +1,202 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FSG GameDev Club — Portal Run</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FSG GameDev Club | Portal Run</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap');
-:root{--bg:#100d20;--panel:#1b1631;--purple:#b49aff;--blue:#67e8f9;--pink:#ffa8d8;--text:#f8f5ff;--muted:#c0b7d9}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at top,#2b2051 0%,var(--bg) 65%);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:20px clamp(16px,6vw,70px);border-bottom:1px solid #ffffff1c}
-.brand{font:700 13px 'Space Mono',monospace;color:var(--blue);letter-spacing:1px}.status{font:11px 'Space Mono',monospace;color:var(--pink);border:1px solid #ffa8d855;border-radius:30px;padding:8px 11px}
-main{max-width:1000px;margin:auto;padding:42px 18px 70px}.hero{text-align:center;margin:0 auto 28px}.eyebrow{font:12px 'Space Mono',monospace;color:var(--blue);letter-spacing:2px}.hero h1{font-size:clamp(36px,7vw,70px);line-height:1.02;margin:15px 0}.hero h1 span{color:var(--purple)}p{color:var(--muted);line-height:1.65}.hero p{max-width:650px;margin:0 auto 20px}
-.card{background:#1b1631d9;border:1px solid #ffffff20;border-radius:18px;padding:22px;box-shadow:0 18px 55px #0002}.game-card{padding:14px}.hud{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:6px 5px 13px;font:12px 'Space Mono',monospace}.gemcount{color:var(--pink)}.game-wrap{position:relative;border:1px solid #8c7cbd55;border-radius:12px;overflow:hidden;background:#17152e}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none}.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:#100d20d9}.overlay.hidden{display:none}.overlay-box{max-width:380px}.overlay h2{font-size:clamp(24px,5vw,38px);margin:8px 0}.overlay p{margin:8px auto 18px}.btn,button{font:700 12px 'Space Mono',monospace;border-radius:9px;border:0;padding:13px 16px;cursor:pointer;transition:transform .15s,filter .15s}.btn:hover,button:hover{transform:translateY(-2px);filter:brightness(1.08)}.primary{display:inline-block;background:var(--blue);color:#17132b;text-decoration:none}.secondary{background:#ffffff10;color:var(--text);border:1px solid #ffffff30}.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 3px 2px;flex-wrap:wrap}.controls p{font-size:12px;margin:0}.touch{display:flex;gap:8px}.touch button{min-width:54px;min-height:46px;background:#342753;border:1px solid #8c7cbd;color:white;font-size:18px;touch-action:none;user-select:none}.below{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}.below h2{font-size:21px;margin:8px 0}.below p{font-size:14px;margin-bottom:0}.join{display:none;margin-top:22px;text-align:center;border-color:#67e8f988;box-shadow:0 0 45px #67e8f911}.join.show{display:block;animation:appear .45s ease-out}.fee{font-size:35px;font-weight:700;color:var(--pink);margin:8px}.join h2{font-size:28px;margin:10px 0}.small{font-size:12px}@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}footer{text-align:center;color:#968caf;font:10px 'Space Mono',monospace;padding:25px 10px}
-@media(max-width:650px){main{padding-top:30px}.below{grid-template-columns:1fr}.card{padding:16px}.game-card{padding:9px}.controls{align-items:flex-start}.controls p{max-width:150px}.status{font-size:9px}.brand{font-size:11px}}
+:root{--bg:#100d20;--panel:#1b1631;--purple:#b49aff;--blue:#67e8f9;--pink:#ffa8d8;--text:#f8f5ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#2b2051,var(--bg) 70%);color:var(--text);font-family:Arial,sans-serif;text-align:center}
+header{padding:20px;border-bottom:1px solid #ffffff22;color:var(--blue)}
+main{max-width:850px;margin:30px auto;padding:12px}
+h1{font-size:clamp(38px,8vw,65px);margin:15px}
+h1 span{color:var(--purple)}
+p{line-height:1.6;color:#c0b7d9}
+.card{background:var(--panel);border:1px solid #ffffff25;border-radius:15px;padding:20px;margin:15px 0}
+canvas{width:100%;height:auto;border-radius:10px;display:block;background:#17152f;touch-action:none}
+button,a{display:inline-block;padding:12px 16px;border:0;border-radius:8px;background:var(--blue);color:#17132b;font-weight:bold;cursor:pointer;text-decoration:none;margin:5px}
+button:hover,a:hover{filter:brightness(1.15)}
+.secondary{background:#342753;color:white;border:1px solid #8c7cbd}
+#puzzle,#win,#join{display:none}
+.option{display:block;width:100%;background:#342753;color:white;border:1px solid #8c7cbd}
+#message{color:var(--blue);min-height:24px}
+.touch button{min-width:65px;font-size:20px}
+small{color:#c0b7d9}
 </style>
 </head>
 <body>
-<nav><div class="brand">▧ FSG GAMEDEV CLUB</div><div class="status">RECRUITMENT OPEN · 2026</div></nav>
+<header>▧ FSG GAMEDEV CLUB · RECRUITMENT OPEN 2026</header>
 <main>
-<header class="hero"><div class="eyebrow">FACULTY OF SCIENCES OF GABÈS</div><h1>PORTAL <span>RUN.</span></h1><p>A tiny platformer made for future game makers. Jump, collect all 5 energy shards, and unlock the club portal. Ready, player?</p></header>
-<section class="card game-card" aria-label="Portal Run platform game">
-<div class="hud"><span>MISSION: COLLECT THE SHARDS</span><span class="gemcount" id="counter">SHARDS 0 / 5</span><span id="lives">FALLS 0</span></div>
-<div class="game-wrap">
-<canvas id="game" width="800" height="440" aria-label="Pixel platform game. Use arrow keys or A and D to move, Space or Up to jump."></canvas>
-<div class="overlay" id="startOverlay"><div class="overlay-box"><div class="eyebrow">PLAYER 001 · LEVEL 01</div><h2>Find the portal.</h2><p>Move with ← → or A / D. Jump with Space, ↑ or W. Collect every shard, then reach the glowing portal!</p><button class="primary" id="startBtn">START GAME ▶</button></div></div>
-<div class="overlay hidden" id="winOverlay"><div class="overlay-box"><div class="eyebrow">MISSION COMPLETE</div><h2>PORTAL UNLOCKED ✦</h2><p>You made it! You have the skills to join the next adventure.</p><button class="primary" id="continueBtn">UNLOCK MEMBERSHIP ↗</button></div></div>
-<div class="overlay hidden" id="loseOverlay"><div class="overlay-box"><div class="eyebrow">TRY AGAIN</div><h2>Oops, player!</h2><p>You fell off the map. Your shards are safe — try the level again.</p><button class="primary" id="retryBtn">RESPAWN ↻</button></div></div>
+<h1>PORTAL <span>RUN.</span></h1>
+<p>Solve the puzzles, find the keys, and escape through all three portals!</p>
+
+<section class="card">
+<p id="hud">LEVEL 1 · FIND THE KEY</p>
+<canvas id="game" width="800" height="400"></canvas>
+<div class="touch">
+<button class="secondary" id="left">←</button>
+<button class="secondary" id="jump">↑ JUMP</button>
+<button class="secondary" id="right">→</button>
 </div>
-<div class="controls"><p>PC: ← → / A D to move · SPACE / ↑ to jump</p><div class="touch"><button id="leftBtn" aria-label="Move left">←</button><button id="jumpBtn" aria-label="Jump">↑</button><button id="rightBtn" aria-label="Move right">→</button></div><button class="secondary" id="restartBtn">RESTART ↻</button></div>
+<p><small>Move: A/D or ←/→ · Jump: W, ↑ or Space · Press E near the terminal</small></p>
+<button id="start">START GAME ▶</button>
+<button class="secondary" id="restart">RESTART ↻</button>
 </section>
-<div class="below">
-<section class="card"><div class="eyebrow">ABOUT THE CLUB</div><h2>Small team. Big ideas.</h2><p>Explore game development, game design, Unity, Unreal Engine and indie projects with other students. Beginners are welcome — curiosity is enough to start.</p></section>
-<section class="card"><div class="eyebrow">YOUR QUEST</div><h2>Make something playable.</h2><p>Learn together, experiment with mechanics, meet other creators and turn your ideas into games. Your first project could start here.</p></section>
-</div>
-<section class="card join" id="joinSection">
-  <div class="eyebrow">NEW QUEST AVAILABLE</div>
-  <h2>Welcome to the party! 💜</h2>
-  <p>You completed Portal Run. Now apply to join the FSG GameDev Club.</p>
 
-  <p class="small">Membership fee: 15 TND · Paid in person</p>
+<section class="card" id="puzzle">
+<h2 id="question" style="color:var(--purple)"></h2>
+<p id="clue"></p>
+<div id="options"></div>
+<p id="message"></p>
+<button id="resume" style="display:none">RETURN TO GAME ▶</button>
+</section>
 
-  <a class="btn primary" href="https://forms.gle/YaJ7FyvtLMJP83LK9"
-     target="_blank" rel="noopener noreferrer">
-    OPEN MEMBERSHIP FORM ↗
-  </a>
+<section class="card" id="win">
+<h2 id="winTitle" style="color:var(--blue)">PORTAL UNLOCKED ✦</h2>
+<p id="winText">You solved the puzzle!</p>
+<button id="next">NEXT LEVEL →</button>
+</section>
 
-  <p class="small">No online payment needed. See you in the club!</p>
+<section class="card" id="join">
+<h2 style="color:var(--pink)">WELCOME TO THE PARTY! 💜</h2>
+<p>You conquered all three levels. Ready to join the FSG GameDev Club?</p>
+<p>Membership fee: 15 TND · Paid in person</p>
+<a href="https://forms.gle/YaJ7FyvtLMJP83LK9" target="_blank" rel="noopener noreferrer">OPEN MEMBERSHIP FORM ↗</a>
+<p><small>No online payment needed. See you in the club!</small></p>
+</section>
+
+<section class="card">
+<h3>ABOUT THE CLUB</h3>
+<p>Discover game design, Unity, Unreal Engine and indie projects. Beginners are welcome!</p>
 </section>
 </main>
-<footer>MADE BY STUDENTS, FOR FUTURE GAME MAKERS · FSG GAMEDEV CLUB © 2026</footer>
+
 <script>
-(() => {
-const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
-const W=800,H=440,gravity=.48;
-const platforms=[
-{x:0,y:405,w:170,h:35},{x:135,y:345,w:105,h:18},{x:245,y:290,w:105,h:18},
-{x:360,y:235,w:105,h:18},{x:475,y:290,w:100,h:18},{x:585,y:230,w:105,h:18},
-{x:680,y:165,w:120,h:18}
+const $=id=>document.getElementById(id),c=$("game"),ctx=c.getContext("2d");
+const levels=[
+ ["THE FIRST KEY","What number comes next?","2, 6, 12, 20, ?",["24","28","30","32"],2,"Differences: +4, +6, +8, +10. The answer is 30."],
+ ["THE CORRECT SWITCH","Where is the key?","Exactly ONE statement is true:\nA: The key is not in B.\nB: The key is in C.\nC: The key is not in C.",["A","B","C"],1,"If the key is B, only statement C is true."],
+ ["THE FINAL PROTOCOL","Who has the key?","Exactly ONE person is telling the truth:\nAlex: Blair has the key.\nBlair: Casey has the key.\nCasey: Blair does NOT have the key.",["Alex","Blair","Casey"],1,"If Blair has the key, only Alex's statement is true."]
 ];
-const shardSpots=[{x:175,y:315},{x:285,y:260},{x:400,y:205},{x:515,y:260},{x:720,y:135}];
-const portal={x:733,y:112,w:34,h:50};
-let player,shards,keys={},running=false,won=false,falls=0,frame=0;
-const $=id=>document.getElementById(id);
-function reset(){player={x:40,y:355,w:22,h:30,vx:0,vy:0,onGround:false};shards=shardSpots.map(s=>({...s,got:false}));won=false;running=false;$('counter').textContent='SHARDS 0 / 5';$('lives').textContent='FALLS '+falls;$('winOverlay').classList.add('hidden');$('loseOverlay').classList.add('hidden');$('startOverlay').classList.remove('hidden');$('joinSection').classList.remove('show');draw();}
-function start(){running=true;$('startOverlay').classList.add('hidden');$('loseOverlay').classList.add('hidden');lastTime=performance.now();requestAnimationFrame(loop);}
-function rects(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
-function update(){
- if(!running||won)return;
- frame++;
- const left=keys.ArrowLeft||keys.a||keys.A,right=keys.ArrowRight||keys.d||keys.D;
- player.vx=(right?3.25:0)-(left?3.25:0);player.x+=player.vx;
- player.x=Math.max(0,Math.min(W-player.w,player.x));
- player.vy=Math.min(player.vy+gravity,10);const oldY=player.y;player.y+=player.vy;player.onGround=false;
- if(player.vy>=0){for(const p of platforms){if(oldY+player.h<=p.y&&player.y+player.h>=p.y&&player.x+player.w>p.x&&player.x<p.x+p.w){player.y=p.y-player.h;player.vy=0;player.onGround=true;}}}
- if((keys[' ']||keys.ArrowUp||keys.w||keys.W)&&player.onGround){player.vy=-10.5;player.onGround=false;keys[' ']=false;keys.ArrowUp=false;keys.w=false;keys.W=false;}
- for(const s of shards){if(!s.got&&rects(player,{x:s.x-9,y:s.y-9,w:18,h:18})){s.got=true;const count=shards.filter(a=>a.got).length;$('counter').textContent='SHARDS '+count+' / 5';}}
- if(player.y>H+40){falls++;$('lives').textContent='FALLS '+falls;running=false;$('loseOverlay').classList.remove('hidden');}
- if(rects(player,portal)&&shards.every(s=>s.got)){won=true;running=false;$('winOverlay').classList.remove('hidden');}
+const plats=[
+ {x:0,y:365,w:170,h:35},{x:135,y:310,w:105,h:15},
+ {x:245,y:260,w:105,h:15},{x:355,y:215,w:105,h:15},
+ {x:475,y:260,w:100,h:15},{x:585,y:210,w:105,h:15},
+ {x:680,y:155,w:120,h:15}
+];
+let level=0,player,keys={},running=false,hasKey=false,near=false,frame=0;
+function reset(){
+ player={x:25,y:330,w:20,h:30,vx:0,vy:0,ground:false};
+ keys={};hasKey=false;running=false;
+ $("puzzle").style.display="none";$("win").style.display="none";
+ $("join").style.display="none";$("start").style.display="inline-block";
+ $("hud").textContent=`LEVEL ${level+1} · FIND THE KEY`;
+ draw();
+}
+function start(){
+ if(hasKey||$("win").style.display==="block")return;
+ running=true;$("start").style.display="none";requestAnimationFrame(loop);
+}
+function openPuzzle(){
+ if(!running||hasKey||!near)return;
+ running=false;
+ $("puzzle").style.display="block";
+ $("question").textContent=levels[level][1];
+ $("clue").style.whiteSpace="pre-line";
+ $("clue").textContent=levels[level][2];
+ $("message").textContent="";
+ $("resume").style.display="none";
+ $("options").innerHTML="";
+ levels[level][3].forEach((answer,i)=>{
+  let b=document.createElement("button");
+  b.className="option";b.textContent=answer;
+  b.onclick=()=>{
+   if(i===levels[level][4]){
+    hasKey=true;
+    $("message").textContent="KEY UNLOCKED! "+levels[level][5];
+    $("options").innerHTML="";
+    $("resume").style.display="inline-block";
+    $("hud").textContent=`LEVEL ${level+1} · REACH THE PORTAL WITH YOUR KEY`;
+   }else $("message").textContent="Not quite! Think carefully and try again.";
+  };
+  $("options").appendChild(b);
+ });
+}
+$("resume").onclick=()=>{$("puzzle").style.display="none";start()};
+$("start").onclick=start;
+$("restart").onclick=()=>{level=0;reset()};
+$("next").onclick=()=>{
+ if(level<2){level++;reset();start()}
+ else{$("win").style.display="none";$("join").style.display="block"}
+};
+document.onkeydown=e=>{
+ keys[e.key.toLowerCase()]=true;
+ if(["arrowleft","arrowright","arrowup"," "].includes(e.key.toLowerCase()))e.preventDefault();
+ if(e.key.toLowerCase()==="e")openPuzzle();
+};
+document.onkeyup=e=>keys[e.key.toLowerCase()]=false;
+function hold(id,key){
+ const b=$(id);
+ b.onpointerdown=e=>{e.preventDefault();keys[key]=true};
+ ["pointerup","pointerleave","pointercancel"].forEach(ev=>
+ b.addEventListener(ev,()=>keys[key]=false));
+}
+hold("left","arrowleft");hold("right","arrowright");
+$("jump").onpointerdown=e=>{
+ e.preventDefault();if(player.ground&&running){player.vy=-10;player.ground=false}
+};
+function loop(){
+ if(!running)return;
+ player.vx=((keys.d||keys.arrowright)?3:0)-((keys.a||keys.arrowleft)?3:0);
+ player.x=Math.max(0,Math.min(780,player.x+player.vx));
+ let old=player.y;
+ player.vy=Math.min(player.vy+.45,9);player.y+=player.vy;player.ground=false;
+ if((keys.w||keys.arrowup||keys[" "])&&player.ground)player.vy=-10;
+ if(player.y+player.h>365&&old+player.h<=365&&player.vy>=0){
+  player.y=335;player.vy=0;player.ground=true;
+ }
+ for(const p of plats){
+  if(player.vy>=0&&old+player.h<=p.y&&player.y+player.h>=p.y&&player.x+player.w>p.x&&player.x<p.x+p.w){
+   player.y=p.y-player.h;player.vy=0;player.ground=true;
+  }
+ }
+ if(player.y>410){player={x:25,y:330,w:20,h:30,vx:0,vy:0,ground:false}}
+ const t={x:400,y:195};
+ near=Math.hypot(player.x+10-t.x,player.y+15-t.y)<60;
+ const portal={x:740,y:105,w:30,h:50};
+ if(hasKey&&player.x+player.w>portal.x&&player.y<portal.y+portal.h&&player.y+player.h>portal.y){
+  running=false;$("win").style.display="block";
+  $("winTitle").textContent=level===2?"PORTAL MASTER ✦":"LEVEL COMPLETE ✦";
+  $("winText").textContent=level===2?"All three logic challenges solved!":"Excellent reasoning. A harder level awaits.";
+  $("next").textContent=level===2?"UNLOCK MEMBERSHIP ↗":"NEXT LEVEL →";
+  draw();return;
+ }
+ draw();
+ requestAnimationFrame(loop);
 }
 function draw(){
- ctx.clearRect(0,0,W,H);
- const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#17152f');sky.addColorStop(1,'#29204b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
- // stars
- for(let i=0;i<55;i++){let x=(i*137+31)%W,y=(i*71+13)%H;ctx.fillStyle=i%3===0?'#ffa8d8':'#b49aff';ctx.globalAlpha=.35+((i%4)*.15);ctx.fillRect(x,y,i%5===0?3:2,i%5===0?3:2)}ctx.globalAlpha=1;
- // distant skyline
- for(let i=0;i<16;i++){let x=i*55;ctx.fillStyle='#211a3d';ctx.fillRect(x,330-(i%4)*17,38,110);ctx.fillStyle='#514477';for(let y=342-(i%4)*17;y<410;y+=16)ctx.fillRect(x+8,y,4,5);}
- // portal
- ctx.fillStyle='#38245e';ctx.fillRect(portal.x-5,portal.y+5,portal.w+10,portal.h+8);
- ctx.fillStyle='#a78bfa';ctx.fillRect(portal.x,portal.y,portal.w,portal.h);
- ctx.fillStyle='#67e8f9';ctx.fillRect(portal.x+7,portal.y+7,portal.w-14,portal.h-14);
- ctx.fillStyle='#17132b';ctx.fillRect(portal.x+12,portal.y+12,portal.w-24,portal.h-20);
- ctx.fillStyle='#ffa8d8';ctx.fillRect(portal.x+14,portal.y+18,5,5);
- // platforms
- for(const p of platforms){ctx.fillStyle='#514477';ctx.fillRect(p.x,p.y,p.w,p.h);ctx.fillStyle='#b49aff';ctx.fillRect(p.x,p.y,p.w,4);ctx.fillStyle='#33264f';for(let x=p.x+8;x<p.x+p.w-4;x+=18)ctx.fillRect(x,p.y+9,7,3);}
- // shards
- for(const s of shards){if(s.got)continue;let bob=Math.sin(frame*.08+s.x)*3;ctx.save();ctx.translate(s.x,s.y+bob);ctx.rotate(Math.PI/4);ctx.shadowColor='#67e8f9';ctx.shadowBlur=14;ctx.fillStyle='#67e8f9';ctx.fillRect(-6,-6,12,12);ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.fillRect(-2,-4,3,3);ctx.restore();}
- // player pixel sprite
- const x=Math.round(player.x),y=Math.round(player.y);
- ctx.fillStyle='#0a0915';ctx.fillRect(x+3,y+27,7,4);ctx.fillRect(x+14,y+27,7,4);
- ctx.fillStyle='#ffa8d8';ctx.fillRect(x+4,y+5,15,12);ctx.fillStyle='#b49aff';ctx.fillRect(x+2,y+15,19,13);
- ctx.fillStyle='#f8f5ff';ctx.fillRect(x+6,y+8,4,4);ctx.fillRect(x+14,y+8,4,4);ctx.fillStyle='#17132b';ctx.fillRect(x+8,y+9,2,3);ctx.fillRect(x+15,y+9,2,3);
- ctx.fillStyle='#67e8f9';ctx.fillRect(x,y+17,4,8);ctx.fillRect(x+20,y+17,4,8);
- // HUD hint and ground
- ctx.fillStyle='#c0b7d9';ctx.font='10px monospace';ctx.fillText(shards.every(s=>s.got)?'PORTAL READY! GO!':'COLLECT ALL SHARDS TO OPEN PORTAL',15,22);
+ ctx.clearRect(0,0,800,400);
+ let g=ctx.createLinearGradient(0,0,0,400);g.addColorStop(0,"#17152f");g.addColorStop(1,"#29204b");
+ ctx.fillStyle=g;ctx.fillRect(0,0,800,400);
+ for(let i=0;i<55;i++){ctx.fillStyle=i%3?"#b49aff":"#ffa8d8";ctx.fillRect(i*137%800,i*71%400,2,2)}
+ plats.forEach(p=>{ctx.fillStyle="#514477";ctx.fillRect(p.x,p.y,p.w,p.h);ctx.fillStyle="#b49aff";ctx.fillRect(p.x,p.y,p.w,4)});
+ const t={x:400,y:195};
+ ctx.fillStyle="#67e8f9";ctx.fillRect(t.x-12,t.y-12,24,24);
+ ctx.fillStyle="#17132b";ctx.font="bold 16px monospace";ctx.fillText("?",t.x-5,t.y+5);
+ ctx.fillStyle=hasKey?"#67e8f9":"#a78bfa";ctx.fillRect(740,105,30,50);
+ ctx.fillStyle="#17132b";ctx.fillRect(749,115,12,30);
+ if(near&&!hasKey){ctx.fillStyle="#67e8f9";ctx.font="12px monospace";ctx.fillText("PRESS E",365,165)}
+ ctx.fillStyle="#ffa8d8";ctx.fillRect(player.x+3,player.y+5,15,12);
+ ctx.fillStyle="#b49aff";ctx.fillRect(player.x+2,player.y+17,18,12);
+ ctx.fillStyle="#f8f5ff";ctx.fillRect(player.x+6,player.y+8,4,4);ctx.fillRect(player.x+13,player.y+8,4,4);
+ ctx.fillStyle="#67e8f9";ctx.fillRect(player.x,player.y+19,4,7);ctx.fillRect(player.x+19,player.y+19,4,7);
+ ctx.fillStyle="#c0b7d9";ctx.font="12px monospace";
+ ctx.fillText(`LEVEL ${level+1}/3 · ${levels[level][0]}`,15,20);
+ ctx.fillText(hasKey?"KEY ACQUIRED":"FIND THE KEY",15,38);
 }
-let lastTime=0;
-function loop(t){if(!running)return;const dt=Math.min((t-lastTime)/16.67,2);lastTime=t; // time-stable enough for simple platform controls
- update();draw();if(running)requestAnimationFrame(loop);}
-document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp',' '].includes(e.key))e.preventDefault();keys[e.key]=true;if(!running&&!won&&e.key==='Enter')start();});
-document.addEventListener('keyup',e=>{keys[e.key]=false});
-function bindHold(id,key){const b=$(id);const down=e=>{e.preventDefault();keys[key]=true};const up=e=>{e.preventDefault();keys[key]=false};b.addEventListener('pointerdown',down);['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,up));}
-bindHold('leftBtn','ArrowLeft');bindHold('rightBtn','ArrowRight');$('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();if(player.onGround){player.vy=-10.5;player.onGround=false;}});
-$('startBtn').addEventListener('click',start);$('retryBtn').addEventListener('click',()=>{
-  keys={};
-  player={x:40,y:355,w:22,h:30,vx:0,vy:0,onGround:false};
-  running=false;
-  won=false;
-  shards=shardSpots.map(s=>({...s,got:false}));
-  $('counter').textContent='SHARDS 0 / 5';
-  $('winOverlay').classList.add('hidden');
-  $('loseOverlay').classList.add('hidden');
-  start();
-});
-  $('restartBtn').addEventListener('click',()=>{
-  keys={};
-  falls=0;
-  reset();
-});
-$('continueBtn').addEventListener('click',()=>{$('joinSection').classList.add('show');$('joinSection').scrollIntoView({behavior:'smooth',block:'center'});});
 reset();
-})();
 </script>
 </body>
 </html>
