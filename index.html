@@ -385,47 +385,48 @@ bindHold('leftBtn','ArrowLeft');bindHold('rightBtn','ArrowRight');$('jumpBtn').a
 resetGame();
 })();
 
-function doPost(e) {
-  try {
-    const sheet = SpreadsheetApp
-      .getActiveSpreadsheet()
-      .getSheetByName("Responses");
+const membershipForm = document.getElementById("membershipForm");
+const formMessage = document.getElementById("formMessage");
+const submitButton = membershipForm.querySelector(".form-submit");
 
-    if (!sheet) {
-      throw new Error("Responses sheet not found.");
+membershipForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  if (!membershipForm.reportValidity()) return;
+
+  formMessage.textContent = "Sending your application...";
+  formMessage.className = "";
+
+  submitButton.disabled = true;
+  submitButton.textContent = "SENDING...";
+
+  const formData = new FormData(membershipForm);
+
+  fetch(membershipForm.action, {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.text())
+  .then(result => {
+    if (result.trim() === "Success") {
+      formMessage.textContent =
+        "✦ Application submitted successfully! 💜";
+      formMessage.className = "success";
+      membershipForm.reset();
+    } else {
+      throw new Error("Submission failed");
     }
-
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        "Timestamp",
-        "Full Name",
-        "Email Address",
-        "Study Year",
-        "Game Development Interest",
-        "Discord Username",
-        "Favorite Games"
-      ]);
-    }
-
-    const data = e.parameter;
-
-    sheet.appendRow([
-      new Date(),
-      data.fullName || "",
-      data.email || "",
-      data.studyYear || "",
-      data.interest || "",
-      data.discord || "",
-      data.favoriteGames || ""
-    ]);
-
-    return HtmlService.createHtmlOutput("Success");
-
-  } catch (error) {
-    return HtmlService.createHtmlOutput("Error");
-  }
-}
-
+  })
+  .catch(error => {
+    formMessage.textContent =
+      "Something went wrong. Please try again.";
+    formMessage.className = "error";
+  })
+  .finally(() => {
+    submitButton.disabled = false;
+    submitButton.textContent = "✦ JOIN THE ADVENTURE ✦";
+  });
+});
 
 </script>
 </body>
