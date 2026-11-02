@@ -388,44 +388,45 @@ resetGame();
 const membershipForm = document.getElementById("membershipForm");
 const formMessage = document.getElementById("formMessage");
 const submitButton = membershipForm.querySelector(".form-submit");
+const submissionFrame = document.getElementById("submissionFrame");
+
+let formSubmitted = false;
+let initialFrameLoad = true;
+
+submissionFrame.addEventListener("load", function() {
+  if (initialFrameLoad) {
+    initialFrameLoad = false;
+    return;
+  }
+
+  if (!formSubmitted) return;
+
+  formSubmitted = false;
+
+  formMessage.textContent =
+    "✦ Application submitted! Welcome aboard! 💜";
+
+  formMessage.className = "success";
+
+  membershipForm.reset();
+
+  submitButton.disabled = false;
+  submitButton.textContent = "✦ JOIN THE ADVENTURE ✦";
+});
 
 membershipForm.addEventListener("submit", function(event) {
-  event.preventDefault();
+  if (!membershipForm.reportValidity()) {
+    event.preventDefault();
+    return;
+  }
 
-  if (!membershipForm.reportValidity()) return;
+  formSubmitted = true;
 
   formMessage.textContent = "Sending your application...";
   formMessage.className = "";
 
   submitButton.disabled = true;
   submitButton.textContent = "SENDING...";
-
-  const formData = new FormData(membershipForm);
-
-  fetch(membershipForm.action, {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.text())
-  .then(result => {
-    if (result.trim() === "Success") {
-      formMessage.textContent =
-        "✦ Application submitted successfully! 💜";
-      formMessage.className = "success";
-      membershipForm.reset();
-    } else {
-      throw new Error("Submission failed");
-    }
-  })
-  .catch(error => {
-    formMessage.textContent =
-      "Something went wrong. Please try again.";
-    formMessage.className = "error";
-  })
-  .finally(() => {
-    submitButton.disabled = false;
-    submitButton.textContent = "✦ JOIN THE ADVENTURE ✦";
-  });
 });
 
 </script>
