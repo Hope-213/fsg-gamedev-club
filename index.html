@@ -61,6 +61,103 @@ body.fullscreen-mode .controls{flex-shrink:0}
     min-height: 1800px;
   }
 }
+
+.membership-form {
+  width: 100%;
+  max-width: 650px;
+  margin: 28px auto;
+  padding: 25px;
+  background: #1b1631;
+  border: 1px solid #b49aff66;
+  border-radius: 18px;
+  box-shadow: 0 0 25px #b49aff22;
+  animation: popIn 0.6s ease;
+}
+
+.form-question {
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.form-question label {
+  display: block;
+  margin-bottom: 9px;
+  color: #b49aff;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.membership-form input,
+.membership-form textarea,
+.membership-form select {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #100d20;
+  color: #f8f5ff;
+  border: 1px solid #8c7cbd88;
+  border-radius: 10px;
+  font: inherit;
+  outline: none;
+  transition: 0.25s ease;
+}
+
+.membership-form input:focus,
+.membership-form textarea:focus,
+.membership-form select:focus {
+  border-color: #b49aff;
+  box-shadow: 0 0 12px #b49aff66;
+}
+
+.membership-form input::placeholder,
+.membership-form textarea::placeholder {
+  color: #9186ac;
+}
+
+.membership-form select option {
+  background: #1b1631;
+  color: #f8f5ff;
+}
+
+.form-submit {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #b49aff, #ffa8d8);
+  color: #100d20;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.form-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px #b49aff88;
+}
+
+#formMessage {
+  margin-top: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#formMessage.success {
+  color: #67e8f9;
+}
+
+#formMessage.error {
+  color: #ffa8d8;
+}
+
+@media (max-width: 600px) {
+  .membership-form {
+    padding: 18px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -88,6 +185,7 @@ body.fullscreen-mode .controls{flex-shrink:0}
 <section class="card"><div class="eyebrow">ABOUT THE CLUB</div><h2>Small team. Big ideas.</h2><p>Explore game development, game design, Unity, Unreal Engine and indie projects with other students. Beginners are welcome — curiosity is enough to start.</p></section>
 <section class="card"><div class="eyebrow">YOUR QUEST</div><h2>Make something playable.</h2><p>Learn together, experiment with mechanics, meet other creators and turn your ideas into games. Your first project could start here.</p></section>
 </div>
+
 <section class="card join" id="joinSection">
   <div class="eyebrow">✦ PORTAL DESTINATION UNLOCKED ✦</div>
 
@@ -95,25 +193,84 @@ body.fullscreen-mode .controls{flex-shrink:0}
 
   <p>
     Your next adventure starts with the FSG GameDev Club.
-    Complete the form below to join our community!
+    Complete your membership application below!
   </p>
 
   <p class="small">Membership fee: 15 TND · Paid in person</p>
 
-  <div class="google-form-wrapper">
+  <div class="membership-form">
+
+    <form
+      id="membershipForm"
+      action="PASTE_YOUR_WEB_APP_URL_HERE"
+      method="POST"
+      target="submissionFrame"
+    >
+
+      <div class="form-question">
+        <label for="username">USERNAME</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Your username"
+          required
+        >
+      </div>
+
+      <div class="form-question">
+        <label for="email">EMAIL ADDRESS</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+        >
+      </div>
+
+      <div class="form-question">
+        <label for="favoriteGame">FAVORITE GAME</label>
+        <select id="favoriteGame" name="favoriteGame" required>
+          <option value="">Choose your favorite game</option>
+          <option value="Minecraft">Minecraft</option>
+          <option value="Roblox">Roblox</option>
+          <option value="Dark Souls">Dark Souls</option>
+          <option value="Counter-Strike">Counter-Strike</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-question">
+        <label for="reason">WHY DO YOU WANT TO JOIN?</label>
+        <textarea
+          id="reason"
+          name="reason"
+          rows="4"
+          placeholder="Tell us a little about yourself..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">
+        ✦ JOIN THE ADVENTURE ✦
+      </button>
+
+      <p id="formMessage" aria-live="polite"></p>
+
+    </form>
+
     <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLSd2vklYFnzY5-zCez06wHzL3bJtxNVc9qTZ0fnvtImA7_jhUw/viewform?embedded=true"
-      width="100%"
-      height="1636"
-      frameborder="0"
-      marginheight="0"
-      marginwidth="0">
-      Loading...
-    </iframe>
+      name="submissionFrame"
+      id="submissionFrame"
+      style="display:none"
+      title="Form submission"
+    ></iframe>
+
   </div>
 
   <p class="small">No online payment needed. We can't wait to meet you!</p>
 </section>
+
 </main>
 <footer>MADE BY STUDENTS, FOR FUTURE GAME MAKERS · FSG GAMEDEV CLUB © 2026</footer>
 <script>
@@ -209,6 +366,41 @@ function bindHold(id,key){const el=$(id);const down=e=>{e.preventDefault();keys[
 bindHold('leftBtn','ArrowLeft');bindHold('rightBtn','ArrowRight');$('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();keys.ArrowUp=true;setTimeout(()=>keys.ArrowUp=false,80)});
 resetGame();
 })();
+
+const membershipForm = document.getElementById("membershipForm");
+const formMessage = document.getElementById("formMessage");
+const submitButton = membershipForm.querySelector(".form-submit");
+
+membershipForm.addEventListener("submit", () => {
+  formMessage.textContent = "Sending your application...";
+  formMessage.className = "";
+  submitButton.disabled = true;
+  submitButton.textContent = "SENDING...";
+});
+
+window.addEventListener("message", (event) => {
+  if (!event.data || !event.data.type) return;
+
+  if (event.data.type === "membership-success") {
+    formMessage.textContent =
+      "✦ Application submitted successfully! Welcome aboard! 💜";
+    formMessage.className = "success";
+
+    membershipForm.reset();
+    submitButton.disabled = false;
+    submitButton.textContent = "✦ JOIN THE ADVENTURE ✦";
+  }
+
+  if (event.data.type === "membership-error") {
+    formMessage.textContent =
+      "Something went wrong. Please try again.";
+    formMessage.className = "error";
+
+    submitButton.disabled = false;
+    submitButton.textContent = "✦ JOIN THE ADVENTURE ✦";
+  }
+});
+
 </script>
 </body>
 </html>
